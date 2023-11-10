@@ -6,10 +6,6 @@ class Service {
   constructor (label) {
     this.label = label
     this.include = null
-
-    // if (label === 'ChannelsUser') {
-    //   this.include = ['channel', 'user']
-    // }
   }
 
   async getAll () {
@@ -20,11 +16,11 @@ class Service {
     return data
   }
 
-  async getByCode (thingId) {
-    const thing = await models[this.label].findByPk(thingId, { include: this.include })
+  async getById (thingId) {
+    const thing = await models[this.label].findByPk(thingId)
     if (!thing) throw boom.notFound('Id: ' + thingId + ' Not found')
 
-    return thing
+    return thing.dataValues
   }
 
   async update (thingId, thingData) {
@@ -34,18 +30,18 @@ class Service {
     return thing
   }
 
-  async add (thing) {
+  async create (thing) {
     const newThing = {
       ...thing,
-      [`${this.label.toLowerCase()}Id`]: crypto.randomUUID()
+      codigo: crypto.randomUUID()
     }
 
-    const response = await models[this.label].create(newThing)
+    await models[this.label].create(newThing)
 
-    return response
+    return { status: 'created' }
   }
 
-  async remove (thingId) {
+  async delete (thingId) {
     const thing = await this.getById(thingId)
     await thing.destroy()
 

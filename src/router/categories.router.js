@@ -17,12 +17,12 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get(
-  '/:codigo',
+  '/:id',
   validatorHandler(getCategorySchema, 'params'),
   (req, res, next) => {
     try {
-      const { codigo } = req.params
-      const category = categoryService.getByCode(codigo)
+      const { id } = req.params
+      const category = categoryService.getById(id)
       res.status(200).json(category)
     } catch (error) {
       next(error)
@@ -43,15 +43,15 @@ router.post(
   })
 
 router.patch(
-  '/:codigo',
+  '/:id',
   validatorHandler(getCategorySchema, 'params'),
   validatorHandler(createCategorySchema, 'body'),
   (req, res, next) => {
     try {
-      const { codigo } = req.params
+      const { id } = req.params
       const category = req.body
 
-      const categories = categoryService.update(codigo, category)
+      const categories = categoryService.update(id, category)
       res.status(200).json(categories)
     } catch (error) {
       next(error)
@@ -59,13 +59,13 @@ router.patch(
   })
 
 router.delete(
-  '/:codigo',
+  '/:id',
   validatorHandler(getCategorySchema, 'params'),
   (req, res, next) => {
     try {
-      const { codigo } = req.params
+      const { id } = req.params
 
-      const categories = categoryService.delete(codigo)
+      const categories = categoryService.delete(id)
       res.status(200).json(categories)
     } catch (error) {
       next(error)

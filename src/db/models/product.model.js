@@ -4,11 +4,16 @@ const { CATEGORY_TABLE_NAME } = require('./category.model')
 const PRODUCT_TABLE_NAME = 'products'
 
 const ProductSchema = {
+  id: {
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+    type: DataTypes.INTEGER
+  },
   codigo: {
     allowNull: false,
-    defaultValue: Sequelize.UUIDV4,
-    primaryKey: true,
-    type: DataTypes.UUID
+    type: DataTypes.STRING,
+    unique: true
   },
   nombre: {
     allowNull: false,
@@ -16,29 +21,22 @@ const ProductSchema = {
   },
   precio_venta: {
     allowNull: false,
-    type: DataTypes.NUMBER
+    type: DataTypes.INTEGER
   },
   precio_compra: {
     allowNull: false,
-    type: DataTypes.NUMBER
+    type: DataTypes.INTEGER
   },
-  categoria: {
-    field: 'categoria',
-    references: {
-      model: CATEGORY_TABLE_NAME,
-      key: 'codigo'
-    },
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
+  categoriaId: {
     allowNull: false,
-    type: DataTypes.UUID
+    type: DataTypes.INTEGER
   },
   unidad_de_medida: {
-    allowNull: true,
+    allowNull: false,
     type: DataTypes.STRING
   },
   descripcion: {
-    allowNull: true,
+    allowNull: false,
     type: DataTypes.STRING
   },
   fechaDeRegistro: {
@@ -51,11 +49,8 @@ const ProductSchema = {
 
 class Product extends Model {
   static associate (models) {
-    // this.hasMany(models.ChannelsUser, {
-    //   as: 'channels_users',
-    //   foreignKey: {
-    //     name: 'userId'
-    //   }
+    // this.belongsTo(models.Category, {
+    //   as: 'category'
     // })
   }
 

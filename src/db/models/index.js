@@ -11,6 +11,8 @@ function setupModels (sequelizeConnection) {
   // User.associate(sequelizeConnection.models)
   // Channel.associate(sequelizeConnection.models)
   // ChannelsUser.associate(sequelizeConnection.models)
+  Product.associate(sequelizeConnection.models)
+  Category.associate(sequelizeConnection.models)
 }
 
 module.exports = setupModels

@@ -17,12 +17,12 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get(
-  '/:codigo',
+  '/:id',
   validatorHandler(getProductSchema, 'params'),
   (req, res, next) => {
     try {
-      const { codigo } = req.params
-      const product = productService.getByCode(codigo)
+      const { id } = req.params
+      const product = productService.getById(id)
       res.status(200).json(product)
     } catch (error) {
       next(error)
@@ -43,15 +43,15 @@ router.post(
   })
 
 router.patch(
-  '/:codigo',
+  '/:id',
   validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'),
   (req, res, next) => {
     try {
-      const { codigo } = req.params
+      const { id } = req.params
       const product = req.body
 
-      const products = productService.update(codigo, product)
+      const products = productService.update(id, product)
       res.status(200).json(products)
     } catch (error) {
       next(error)
@@ -59,13 +59,13 @@ router.patch(
   })
 
 router.delete(
-  '/:codigo',
+  '/:id',
   validatorHandler(getProductSchema, 'params'),
   (req, res, next) => {
     try {
-      const { codigo } = req.params
+      const { id } = req.params
 
-      const products = productService.delete(codigo)
+      const products = productService.delete(id)
       res.status(200).json(products)
     } catch (error) {
       next(error)
